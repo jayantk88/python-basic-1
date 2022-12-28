@@ -1,0 +1,130 @@
+1. 
+
+test1= 'This is a test of the emergency text system'
+len(test1)
+43
+outfile=open('text.txt', 'wt')
+outfile.write(test1)
+43
+outfile.close()
+with open('text.txt,'wt') as outfile:
+outfile.write(test1)
+43
+
+2.
+
+with open('test.txt','ryt') as infile:
+test2= infile.read()
+len(test2)
+43
+test1==test2
+True
+
+3.
+
+text = '''title,author,year
+The Weirdstone of Brisingamen,Alan Garner,1960
+Perdido Street Station,China Miéville,2000
+Thud!,Terry Pratchett,2005
+The Spellman Files,Lisa Lutz,2007
+Small Gods,Terry Pratchett,1992
+'''
+with open('books.csv','wt') as outfile:
+outfile.write(text)
+201
+
+4.
+
+import sqlite3
+db = sqlite3.connect('books.db')
+curs=db.cursor()
+curs.execute('''create table book(title text, author, author text, year int)''')
+<sqlite3.cursor object as 0*1006e90>
+db.commit()
+
+5.
+
+import csv
+import sqlite
+ins_str = 'insert into book values(?,?,?)'
+with open('books.csv','rt') as infile:
+books = csv.DictReader(infile)
+for book in books:
+curs.executive(ins_str, (book['title'], book['author'], book['year']))
+
+<sqlite3.Cursor object at 0*1007b21f0>
+<sqlite3.Cursor object at 0*1007b21f0>
+<sqlite3.Cursor object at 0*1007b21f0>
+<sqlite3.Cursor object at 0*1007b21f0>
+<sqlite3.Cursor object at 0*1007b21f0>
+db.commit()
+
+6. 
+
+sql='select title from book ordee by title asc'
+for row in db.execute(sql):
+print(row)
+('Perdido Street Station',)
+('Small Gods',)
+('The Spellman Files',)
+('The Weirdstone of Brisingamen',)
+('Thud!',)
+
+for row in db.execute(sql):
+print(row[0])
+Perdido Street Station
+Small Gods
+The Spellman Files
+The Weirdstone of Brisingmen
+Thud!
+
+sql = '''selct title from book order by case when (title like "The%") then substr(title,5) else title end''
+for row in db.execute(sql):
+print(row[0])
+Perdido Sreet Station
+Small Gods
+The Spellman Files
+Thud!
+The Weirdstone of Brisingmen
+
+7.
+
+for row in db.execute('select*from book order by year'):
+print(row)
+('The Weirdstone of Brisingmen','Alan Graner', 1960)
+('Small Gods','Terry Pratchett',1992)
+('Perdido Street Station','China Mieville',2000)
+('Thud!,'Terry Pratchett',2005)
+('The Spellman Files','Lisa Lutz', 2007)
+
+8.
+
+import sqlalchemy
+conn = sqlalchemy.create_engine('sqlite:///books.db')
+sql='select title from book order by title asc'
+rows = conn.execute(sql)
+for row in rows:
+print(row)
+('Perdido Sreet Station')
+('Small Gods')
+('The Spellman Files')
+('Thud!')
+('The Weirdstone of Brisingmen')
+
+9. 
+
+import redis
+conn=redis.Redis()
+conn.delete('test')
+1
+conn.hmest('test',{'count':1,'name':'Fester Bestertester'})
+True
+conn.hgetall('test')
+{b'name':b'Fester Bestertester',b'count':b'1'}
+
+10.
+
+conn.hincrby('test','count',3)
+4
+conn.hget('test','count')
+b'4'
